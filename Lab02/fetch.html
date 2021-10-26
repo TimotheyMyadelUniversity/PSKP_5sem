@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>fetchRequest</title>
+</head>
+<body>
+
+    <div id="text_area"></div>
+
+    <script>
+       window.addEventListener('load',async function(){
+        let textArea = document.getElementById("text_area");
+        let resText = await fetch("/api/name", {method: "GET"});
+        textArea.innerHTML = await resText.text();
+       })
+    </script>
+</body>
+</html>
