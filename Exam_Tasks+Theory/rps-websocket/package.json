@@ -1,0 +1,13 @@
+{
+  "name": "rps-websocket",
+  "version": "1.0.0",
+  "dependencies": {
+    "rpc-websockets": "^7.4.17"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.5",
+    "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.11"
+  }
+}

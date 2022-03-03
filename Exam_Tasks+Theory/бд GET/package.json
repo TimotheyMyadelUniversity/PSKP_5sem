@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "express": "^4.17.3",
+    "msnodesqlv8": "^2.4.6",
+    "mssql": "^8.0.2",
+    "rpc-websockets": "^7.4.17"
+  }
+}
