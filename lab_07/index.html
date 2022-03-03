@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>07-01</title>
+    <link rel="stylesheet" href="http://localhost:3000/file.css">
+</head>
+<body>
+    <img src="http://localhost:3000/file.png" width="500px" alt="pic">
+    <br>
+    <video controls autoplay width="500px">
+        <source src="http://localhost:3000/file.mp4">
+    </video>
+    <br>
+    <a href="http://localhost:3000/file.docx">docx file</a>
+    <br>
+    <div id="json_area">...</div>
+    <div id="xml_area">...</div>
+    <input type="button" value="btn" onclick="printMsg()">
+
+    <script src="http://localhost:3000/file.js"></script>
+    <script>
+
+        window.addEventListener('load', async () => {
+            let res = await fetch('http://localhost:3000/file.json', {method: "GET"});
+            let jsonArea = document.getElementById("json_area");
+            let jsonObject = await res.json();
+            jsonArea.innerText = JSON.stringify(jsonObject)
+
+            res = await fetch('http://localhost:3000/file.xml', {method: "GET"});
+            let xmlArea = document.getElementById("xml_area");
+            let text = await res.text();
+            xmlArea.innerHTML = text //new window.DOMParser().parseFromString(text, "text/xml")
+        })
+
+    </script>
+</body>
+</html>

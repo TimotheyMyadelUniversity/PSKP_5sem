@@ -1,0 +1,14 @@
+body
+{
+    background-color: #333333;
+}
+
+#xml_area, #json_area
+{
+    background-color: #d55c5c;
+    color: #ffffff;
+    font-size: 16pt;
+    width: 500px;
+    height: 300px;
+    margin: 10px;
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>wsStart</title>
+</head>
+<body>
+    <h1>10-01</h1>
+    <input type="button" value="wsStart" onclick="wsStart()">
+
+    <script>
+
+        function wsStart()
+        {
+            const myWs = new WebSocket('ws://localhost:4000')
+
+            myWs.onopen = function ()
+            {
+                console.log('open')
+            }
+
+            myWs.onmessage = function (message)
+            {
+                console.log(message.data)
+            }
+
+            myWs.onclose = function ()
+            {
+                console.log('close')
+            }
+
+            let timeout = setTimeout(() =>
+            {
+                clearInterval(interval)
+                myWs.close()
+            }, 25000)
+
+            let i = 0
+            let interval = setInterval(() =>
+            {
+
+                myWs.send(`10-01-client: ${i++}`)
+            }, 3000)
+
+
+        }
+
+    </script>
+</body>
+</html>

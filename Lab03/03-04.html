@@ -1,0 +1,28 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>03-04</title>
+</head>
+<body>
+<div id="result">
+</div>
+
+<script>
+    window.addEventListener("load", async function ()
+    {
+        const startTime = Date.now();
+        let result;
+        let json;
+        for (i = 0; i < 21; i++) {
+            let milliSec = Date.now() - startTime;
+            let res = await fetch(`/fact?k=${i}`, {method: "GET"});
+            let textArea = document.getElementById("result");
+            json = await res.text();
+            result = JSON.parse(json).fact;
+            console.log(result);
+            textArea.innerText += `${i}.Результат: ${milliSec}-${i}/${result}\n`;
+        }
+    });
+</script>
+</body>
+</html>

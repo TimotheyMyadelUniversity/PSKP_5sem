@@ -1,0 +1,193 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAB №14</title>
+    <style>
+        table,th,td{
+            border: 1px solid black;  
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div style="color: darkred;" id="app_error"></div>
+    <button onclick="Get()">Get</button>
+    <div>
+        <button onclick="Post()">Post</button>
+    </div>
+    <div>
+        <button onclick="Delete()">Delete</button>
+    </div>
+    <div>
+        <button onclick="Put()">Put</button>
+    </div>
+    <div>
+        <label>PULPIT: </label>
+        <input type="text" class="col-3" id="PULPIT"/>
+        <button onclick="Find()">Find</button>
+    </div>
+    <div>
+        <label>PULPIT_NAME: </label>
+        <input type="text" class="col-3" id="PULPIT_NAME"/>
+    </div>
+    <div>
+        <label>FACULTY: </label>
+        <input type="text" class="col-3" id="FACULTY"/>
+    </div>
+    
+    <table id="result"  content=""></table>
+<br/>
+</div>
+<script>
+    async function Get() {
+        let errElem = document.getElementById("app_error");
+        errElem.innerHTML = '';
+        fetch('http://localhost:3000/api/pulpits', {
+            
+            method: 'GET',
+            headers: {'Accept': 'application/json'}
+        }).then(response => {
+                return response.json();
+            })
+            .then(pdata => {
+
+                let i = 0;
+                console.log('pdata', pdata);
+                let result = document.getElementById("result");
+                result.innerHTML = '';
+                result.innerHTML += '<thead><td>PULPIT</td> <td>PULPIT NAME</td> <td>FACULTY</td> </tr></thead> <tbody>'
+                pdata.forEach(element => {
+                    result.innerHTML += '</td><td>' + element.PULPIT + '</td><td>' + element.PULPIT_NAME + '</td><td>' + element.FACULTY
+                        + '</td>';
+                });
+                result.innerHTML += '</tbody>'
+
+                document.getElementById("PULPIT").value='';
+                document.getElementById("PULPIT_NAME").value='';
+                document.getElementById("FACULTY").value='';
+            });
+    }
+
+    function Post() {
+        let PULPIT = document.getElementById("PULPIT");
+        let PULPIT_NAME = document.getElementById("PULPIT_NAME");
+        let FACULTY = document.getElementById("FACULTY");
+        let errElem = document.getElementById("app_error")
+        fetch('http://localhost:3000/api/pulpits', {
+            method: 'POST',
+            mode: "no-cors",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(
+                {
+                    PULPIT: PULPIT.value,
+                    PULPIT_NAME: PULPIT_NAME.value,
+                    FACULTY: FACULTY.value
+                }
+            )
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(pdate => {
+                console.log('POST.pdate', pdate);
+                if (typeof(pdate.originalError) != 'undefined' && pdate.originalError != null) {
+                    errElem.innerHTML = pdate.originalError.info.message;
+                }
+            }).then(Get());
+
+            document.getElementById("PULPIT").value='';
+                document.getElementById("PULPIT_NAME").value='';
+                document.getElementById("FACULTY").value='';
+
+    }
+
+    function Delete() {
+        let PULPIT = document.getElementById("PULPIT");
+        let errElem = document.getElementById("app_error");
+
+        fetch(`http://localhost:3000/api/pulpits/${PULPIT.value}`, {
+            method: 'DELETE',
+            headers: {
+                'Access-Control-Request-Method': 'DELETE'
+            }
+        }).then(response => {
+                return response.json();
+            })
+            .then(pdate => {
+                console.log('PUT.pdate', pdate);
+                if (typeof(pdate.originalError) != 'undefined' && pdate.originalError != null) {
+                    errElem.innerHTML = pdate.originalError.info.message;
+                }
+            }).then(Get());
+
+            document.getElementById("PULPIT").value='';
+                document.getElementById("PULPIT_NAME").value='';
+                document.getElementById("FACULTY").value='';
+        
+    }
+
+    function Put() {
+        let PULPIT = document.getElementById("PULPIT");
+        let PULPIT_NAME = document.getElementById("PULPIT_NAME");
+        let FACULTY = document.getElementById("FACULTY");
+        let errElem = document.getElementById("app_error");
+
+        fetch('http://localhost:3000/api/pulpits', {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON. stringify(
+                {
+                    PULPIT: PULPIT.value,
+                    PULPIT_NAME: PULPIT_NAME.value,
+                    FACULTY: FACULTY.value
+                }
+            )
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(pdate => {
+                console.log('PUT.pdate', pdate);
+                if (typeof(pdate.originalError) != 'undefined' && pdate.originalError != null) {
+                    errElem.innerHTML = pdate.originalError.info.message;
+                }
+            }).then(Get());
+
+            document.getElementById("PULPIT").value='';
+            document.getElementById("PULPIT_NAME").value='';
+            document.getElementById("FACULTY").value='';
+    }
+
+    async function Find() {
+        let pulpit = document.getElementById("PULPIT").value;
+        let errElem = document.getElementById("app_error");
+
+        fetch('http://localhost:3000/api/pulpits', {
+
+            method: 'GET',
+            headers: {'Accept': 'application/json'}
+        }).then(response => {
+            return response.json();
+        })
+            .then(pdata => {
+                pdata.forEach(element => {
+                    if(true)
+                    {
+                        document.getElementById("PULPIT_NAME").value=element.PULPIT_NAME ;
+                        document.getElementById("FACULTY").value=element.FACULTY ;
+                    }
+
+                });
+
+            });
+    };
+
+</script>
+</body>
+</html>

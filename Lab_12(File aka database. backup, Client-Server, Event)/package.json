@@ -1,0 +1,7 @@
+{
+  "name": "Lab_12(File aka database. backup, Client-Server, Event)",
+  "version": "1.0.0",
+  "dependencies": {
+    "rpc-websockets": "^7.4.17"
+  }
+}

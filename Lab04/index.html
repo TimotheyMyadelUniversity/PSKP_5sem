@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>04-04/05</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #76F0EC;
+            color: #fff;
+        }
+
+        #get_result {
+            margin-left: 25px;
+            margin-top: 25px;
+        }
+    </style>
+</head>
+<body>
+<div id="get_result"></div>
+<button onclick="Get()">GET</button>
+<br>
+<div style="padding: 20px; " >
+    <div class="row">
+        <label class="col-2">Идентификатор</label>
+        <input type="number" id="ID" class="col-3" min="0" onchange="load()">
+    </div>
+    <div class="row">
+        <label class="col-2">ФИО</label>
+        <input type="text" id="Name" class="col-3">
+    </div>
+    <div class="row">
+        <label class="col-2">Дата рождения</label>
+        <input type="text" id="BDay" class="col-3">
+    </div>
+    <div class="row">
+        <button onclick="Post()">POST</button>
+        <button onclick="Put()">PUT</button>
+        <button onclick="Delete()">DELETE</button>
+    </div>
+</div>
+
+<script>
+
+  function load() {
+    fetch('/api/db', {method: 'GET'})
+      .then(response => response.json())
+      .then(commits => {
+        console.log(commits)
+        let index = commits.findIndex((value, index) => { return value.id === Number(ID.value) })
+
+        if (index === -1)
+        {
+          Name.value = ''
+          BDay.value = ''
+
+          return
+        }
+
+        Name.value = commits[index].name
+        BDay.value = commits[index].bday
+
+      })
+  }
+
+  function Post() {
+    let textArea = document.getElementById('get_result')
+    fetch('/api/db', {
+      method: 'POST',
+      body: JSON.stringify({id: Number(ID.value), name: Name.value, bday: BDay.value})
+    })
+      .then(response => {
+        return response.text()
+      })
+      .then(data => {
+        textArea.innerHTML = data
+      })
+  }
+
+  async function Get() {
+    let textArea = document.getElementById('get_result')
+    fetch('/api/db', {method: 'GET'})
+      .then(response => response.json())
+      .then(commits => {
+        textArea.innerHTML = ''
+        commits.forEach(e => {
+          textArea.innerHTML += `id: ${e.id} name: ${e.name} bday: ${e.bday}<br>`
+        })
+      });
+  }
+
+  function Put() {
+    let textArea = document.getElementById('get_result')
+    fetch('/api/db', {
+      method: 'PUT',
+      body: JSON.stringify({id: ID.value, name: Name.value, bday: BDay.value})
+    })
+      .then(response => {
+        return response.text()
+      })
+      .then(data => {
+        textArea.innerHTML = data
+      })
+  }
+
+  function Delete() {
+    let textArea = document.getElementById('get_result')
+    fetch(`/api/db?id=${ID.value}`, {method: 'DELETE'})
+      .then(response => {
+        return response.text()
+      })
+      .then(data => {
+        textArea.innerHTML = data
+      })
+  }
+
+
+</script>
+</body>
+</html>

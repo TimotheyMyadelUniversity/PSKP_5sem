@@ -1,0 +1,9 @@
+{
+  "name": "Lab_11",
+  "version": "1.0.0",
+  "dependencies": {
+    "async": "^3.2.3",
+    "rpc-websockets": "^7.4.17",
+    "ws": "^8.5.0"
+  }
+}
